@@ -29,6 +29,7 @@ export default {
   computed: {
     ...mapState({
       sidebarStatus: (state) => state.layout.sidebarStatus,
+      routes: (state) => state.permission.routes,
     }),
     ...mapGetters(["menus"]),
   },
@@ -58,6 +59,9 @@ export default {
     height: 100%;
     .el-submenu__title i {
       color: #fff;
+    }
+    .is-active {
+      background-color: #fff !important;
     }
   }
 }

@@ -1,26 +1,26 @@
 <template>
   <component
-    :index="basePath + '/' + item.href"
+    :index="resolvePath"
     :is="
       (item.children && item.children.length ? 'Submenu' : 'MenuItem')
         | componentFilter
     "
   >
     <template v-if="item.children && item.children.length">
-      <template slot="title">
-        <i v-if="item.icon" :class="`el-icon-${item.icon}`"></i>
-        <span>{{ item.label }}</span>
+      <template v-if="item.meta" slot="title">
+        <i v-if="item.meta.icon" :class="`el-icon-${item.meta.icon}`"></i>
+        <span>{{ item.meta.title }}</span>
       </template>
       <nav-menu
         v-for="secondItem in item.children"
         :key="secondItem.id"
         :item="secondItem"
-        :basePath="basePath + '/' + item.href"
+        :basePath="resolvePath"
       />
     </template>
-    <template v-else>
-      <i v-if="item.icon" :class="`el-icon-${item.icon}`"></i>
-      <span slot="title">{{ item.label }}</span>
+    <template v-else-if="item.meta">
+      <i v-if="item.meta.icon" :class="`el-icon-${item.meta.icon}`"></i>
+      <span slot="title">{{ item.meta.title }}</span>
     </template>
   </component>
 </template>
@@ -52,6 +52,11 @@ export default {
       } else {
         return val;
       }
+    },
+  },
+  computed: {
+    resolvePath() {
+      return (this.basePath ? this.basePath + "/" : "") + this.item.path;
     },
   },
 };

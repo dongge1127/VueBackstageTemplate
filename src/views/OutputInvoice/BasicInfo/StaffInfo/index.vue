@@ -1,10 +1,10 @@
 <template>
-  <div>暂无数据</div>
+  <div>用户信息</div>
 </template>
 
 <script>
 export default {
-  name: "NoData",
+  name: "StaffInfo",
 };
 </script>
 

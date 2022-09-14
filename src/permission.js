@@ -25,15 +25,13 @@ router.beforeEach(async (to, from, next) => {
         try {
           await store.dispatch("user/getInfo");
           const menus = await store.dispatch("user/getMenus");
-          const routes = await store.dispatch(
-            "permission/generateRoutes",
-            menus
-          );
-          routes.push(
+          menus.push(
             // 404 page must be placed at the end !!!
             { path: "*", redirect: "/", hidden: true }
           );
-          router.addRoutes(routes);
+          menus.forEach((item) => {
+            router.addRoute(item);
+          });
           next({ ...to, replace: true });
         } catch (e) {
           console.log(e);

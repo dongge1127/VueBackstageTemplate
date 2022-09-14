@@ -2206,7 +2206,7 @@ const menuList = [
     type: 0,
     code: "InvoicePool",
     href: "InvoicePool",
-    icon: "invoicePool",
+    icon: "OutputInvoice",
     description: null,
     children: null,
   },

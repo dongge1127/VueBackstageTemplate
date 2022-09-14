@@ -2,8 +2,18 @@
   <div class="nav-bar">
     <div class="nav-left">
       <hamburger :is-active="menuShow" @toggleClick="toggleClick"></hamburger>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item v-for="bread in breadList" :key="bread.path">
+          <a
+            @click.prevent="handleBreadClick(bread)"
+            v-if="bread.meta.type === 0"
+            >{{ bread.meta.title }}</a
+          >
+          <span v-else>{{ bread.meta.title }}</span>
+        </el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
-    <div class="nav-left">
+    <div class="nav-right">
       <el-button type="text" @click="logout">退出登录</el-button>
     </div>
   </div>
@@ -17,9 +27,25 @@ export default {
   data() {
     return {
       menuShow: false,
+      breadList: [],
     };
   },
+  watch: {
+    $route() {
+      this.getBreadcrumb();
+    },
+  },
+  created() {
+    this.getBreadcrumb();
+  },
   methods: {
+    getBreadcrumb() {
+      console.log(this.$route.matched);
+      this.breadList = this.$route.matched;
+    },
+    handleBreadClick(bread) {
+      console.log("面包屑内容", bread);
+    },
     toggleClick() {
       this.menuShow = !this.menuShow;
       this.$store.commit("layout/TOGGLE_SIDEBAR", this.menuShow);
@@ -53,5 +79,12 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
+  .nav-left {
+    display: flex;
+    align-items: center;
+    .el-breadcrumb {
+      margin-left: 20px;
+    }
+  }
 }
 </style>

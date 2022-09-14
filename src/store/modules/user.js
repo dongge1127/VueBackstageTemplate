@@ -1,6 +1,10 @@
 import { getToken, removeToken, setToken } from "@/utils/auth";
 import { getInfo, getMenus, login, logout } from "@/api/modules/user";
 import { listToTree } from "@/utils/listToTree";
+import Layout from "@/layout";
+import EmptyDirectory from "@/layout/components/EmptyDirectory";
+import NoData from "@/components/NoData";
+import asyncComponents from "@/router/asyncComponents";
 
 const getDefaultState = () => {
   return {
@@ -26,6 +30,41 @@ const mutations = {
     state.menus = menus;
   },
 };
+
+// 过滤路由
+function filterRoutes(menus) {
+  if (!menus || !menus.length) return [];
+  return menus.map((menu) => {
+    const { id, pid, code, icon, label, type, description, href } = menu;
+    const isParent = pid === "-1";
+    const path = isParent ? `/${href}` : href;
+    let component = null;
+    if (type === 0) {
+      // 目录，判断目录下是否有菜单
+      component = isParent ? Layout : EmptyDirectory;
+    } else if (type === 4) {
+      // 暂未开发
+      component = NoData;
+    } else {
+      component = asyncComponents[code] ? asyncComponents[code] : NoData;
+    }
+    return {
+      pid,
+      id,
+      path: path,
+      name: href,
+      meta: {
+        title: label,
+        icon,
+        code,
+        description,
+        type,
+      },
+      component,
+      hidden: type === 3, // 页面不在导航上显示
+    };
+  });
+}
 
 const actions = {
   // 登录
@@ -65,7 +104,9 @@ const actions = {
       getMenus(params)
         .then((res) => {
           // 仅保留目录和菜单
-          const filterMenus = res.data.filter((item) => item.type !== 2);
+          const filterMenus = filterRoutes(res.data).filter(
+            (item) => item.meta.type !== 2
+          );
           // 将平级结构转换为树结构
           const menus = listToTree(filterMenus, "pid");
           console.log("当前菜单列表", menus);
