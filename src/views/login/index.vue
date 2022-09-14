@@ -26,17 +26,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-
 import { validUsername } from "@/utils/validate";
 import { Message } from "element-ui";
 
 export default {
   name: "LoginPage",
-  components: {
-    // HelloWorld,
-  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {

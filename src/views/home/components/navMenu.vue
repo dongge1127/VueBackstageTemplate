@@ -8,7 +8,8 @@
   >
     <template v-if="item.children && item.children.length">
       <template v-if="item.meta" slot="title">
-        <i v-if="item.meta.icon" :class="`el-icon-${item.meta.icon}`"></i>
+        <!--        <i v-if="item.meta.icon" :class="`el-icon-${item.meta.icon}`"></i>-->
+        <svg-icon v-if="item.meta.icon" :icon-class="item.meta.icon" />
         <span>{{ item.meta.title }}</span>
       </template>
       <nav-menu
@@ -19,7 +20,8 @@
       />
     </template>
     <template v-else-if="item.meta">
-      <i v-if="item.meta.icon" :class="`el-icon-${item.meta.icon}`"></i>
+      <!--      <i v-if="item.meta.icon" :class="`el-icon-${item.meta.icon}`"></i>-->
+      <svg-icon v-if="item.meta.icon" :icon-class="item.meta.icon" />
       <span slot="title">{{ item.meta.title }}</span>
     </template>
   </component>
@@ -62,4 +64,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.svg-icon {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+</style>

@@ -677,7 +677,7 @@ const menuList = [
     type: 1,
     code: "ShopInfo",
     href: "ShopInfo",
-    icon: "ShopInfo",
+    icon: "anquanfengxian",
     description: "/shopInfo/shopInfo",
     children: null,
   },
