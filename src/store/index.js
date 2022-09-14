@@ -1,12 +1,19 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import getters from "@/store/getters";
+import user from "@/store/modules/user";
+import layout from "@/store/modules/layout";
+import permission from "@/store/modules/permission";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+const store = new Vuex.Store({
+  modules: {
+    user,
+    layout,
+    permission,
+  },
+  getters,
 });
+
+export default store;
