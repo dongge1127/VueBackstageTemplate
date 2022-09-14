@@ -1,28 +1,46 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import Login from "@/views/login";
+import Layout from "@/layout";
 
 Vue.use(VueRouter);
 
-const routes = [
+export const constantRoutes = [
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    component: Layout,
+    redirect: "/home",
+    children: [
+      {
+        path: "home",
+        name: "Home",
+        component: () => import("@/views/home/index"),
+        meta: { title: "Home", icon: "home" },
+      },
+    ],
   },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
+  // 404 page must be placed at the end !!!
+  // { path: "*", redirect: "/404", hidden: true },
 ];
+// 创建路由对象
+const createRouter = () => {
+  return new VueRouter({
+    // mode: "history",
+    scrollBehavior: () => ({ y: 0 }), // 路由跳转后回到页面顶部
+    routes: constantRoutes,
+  });
+};
 
-const router = new VueRouter({
-  routes,
-});
+const router = createRouter();
 
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher; // reset router
+}
 export default router;
