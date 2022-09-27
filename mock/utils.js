@@ -985,7 +985,7 @@ const menuList = [
     type: 1,
     code: "ClientInfo",
     href: "ClientInfo",
-    icon: "ClientInfo",
+    icon: "yewubaobiao",
     description: "/shopInfo/clientInfo",
     children: null,
   },

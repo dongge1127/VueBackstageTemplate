@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <count-up :end="9999" :options="{ duration: 3000 }"></count-up>
     <h1>登录</h1>
     <el-form ref="loginForm" :rules="formRule" :model="formData">
       <el-form-item prop="userName">
@@ -28,9 +29,11 @@
 <script>
 import { validUsername } from "@/utils/validate";
 import { Message } from "element-ui";
+import CountUp from "@/components/CountUp";
 
 export default {
   name: "LoginPage",
+  components: { CountUp },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {

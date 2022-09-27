@@ -14,7 +14,8 @@ export default {
 <style lang="scss" scoped>
 .no-data {
   img {
-    width: 520px;
+    width: 360px;
+    margin: 30px auto;
   }
   p {
     font-size: 20px;
